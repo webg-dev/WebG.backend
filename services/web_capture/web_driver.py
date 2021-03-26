@@ -36,9 +36,6 @@ class WebDriver:
         self.vdisplay = Xvfb(width=1500, height=3000, colordepth=24)
         self.vdisplay.start()
 
-    def stop_virtual_display(self) -> None:
-        self.vdisplay.stop()
-
     def load_page(self, url: str, timeout: Optional[float] = 10) -> None:
         self.driver.get(url)
         self._wait_for_page_load(timeout)
