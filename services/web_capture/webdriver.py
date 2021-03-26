@@ -11,11 +11,11 @@ from utils.io_funcs import read_text_file
 
 class WebDriver:
 
-    def __init__(self, headless: Optional[bool] = False):
+    def __init__(self, use_virtual_display: Optional[bool] = False):
         geckodriver_autoinstaller.install()
-        self.headless = headless
+        self.use_virtual_display = use_virtual_display
         self.vdisplay = None
-        if self.headless:
+        if self.use_virtual_display:
             self.setup_virtual_display()
         self.driver = webdriver.Firefox()
         # self.driver.maximize_window()
