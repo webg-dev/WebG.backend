@@ -4,15 +4,36 @@ from typing import Optional
 
 import geckodriver_autoinstaller
 from selenium import webdriver
+from xvfbwrapper import Xvfb
 
 from utils.io_funcs import read_text_file
 
 
 class WebDriver:
 
-    def __init__(self):
+    def __init__(self, headless: Optional[bool] = False):
         geckodriver_autoinstaller.install()
+        self.headless = headless
+        self.vdisplay = None
+        if self.headless:
+            self.setup_virtual_display()
         self.driver = webdriver.Firefox()
+        # self.driver.maximize_window()
+        self.driver.set_window_size(1500, 3000)
+
+    def setup_virtual_display(self) -> None:
+        """Setup a virtual display with xvfb
+
+        We cannot run headless chrome with extensions enabled thus run the gui in a virtual framebuffer.
+        Chromium behaves the same as google chrome in this respect.
+
+        Untested on how this code would behave if there were more than one xvfb instances.
+        """
+        self.vdisplay = Xvfb(width=1500, height=3000, colordepth=24)
+        self.vdisplay.start()
+
+    def stop_virtual_display(self) -> None:
+        self.vdisplay.stop()
 
     def load_page(self, url: str, timeout: Optional[float] = 10) -> None:
         self.driver.get(url)
@@ -23,14 +44,19 @@ class WebDriver:
         whether any new nodes have been added to the DOM."""
         start_time = time()
         previous_num_elements = 0
-        while time() - start_time < timeout:
+        while True:
             num_elements = len(self.driver.find_elements_by_css_selector('*'))
             if num_elements > previous_num_elements:
+                print(f'{num_elements - previous_num_elements} new nodes were added...')
                 previous_num_elements = num_elements
                 sleep(1)
             else:
+                print(f'Page fully loaded with {num_elements} elements')
                 break
 
+            if time() - start_time > timeout:
+                print(f'Page load timeout {timeout}s reached')
+                break
 
     def get_html_dom(self) -> str:
         return self.driver.page_source
@@ -47,11 +73,15 @@ class WebDriver:
 
 
 if __name__ == '__main__':
+    start = time()
+    _webdriver = WebDriver(headless=True)
+    url = 'file:////home/luka/Downloads/Matcha Hemp Hydrating Cleanser _ Cleanser For Sensitive Skin – KraveBeauty (23_02_2021 17_11_07).html'
+    _webdriver.load_page(url)
+    _graph = _webdriver.get_graph()
+    _html = _webdriver.get_html_dom()
+    _screenshot = _webdriver.get_screenshot()
+    _webdriver.stop_virtual_display()
+    print(f'Constructed graph with {len(_graph["nodes"])} nodes in {time() - start:.2f}s')
+    from pprint import pprint
 
-    _webdriver = WebDriver()
-    _webdriver.load_page('https://amazon.co.uk')
-    _graph = _webdriver.get_graph()
-    print(len(_graph['nodes']))
-    sleep(5)
-    _graph = _webdriver.get_graph()
-    print(len(_graph['nodes']))
+    pprint(_graph)
