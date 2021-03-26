@@ -10,6 +10,5 @@ router = APIRouter()
 def get_web_page(url: str) -> WebPage:
     webdriver = WebDriver(use_virtual_display=True)
     web_page = webdriver.get_web_page(url)
-    web_page.screenshot = 'screenshot'
     webdriver.close()
     return web_page
