@@ -11,7 +11,7 @@ function buildGraph() {
         element.setAttribute("webg_id", id.toString());
         let label = element.tagName;
         let coordinates = element.getBoundingClientRect();
-        let visible = isElementVisible(element, coordinates);
+        let isVisible = isElementVisible(element, coordinates);
         let attributes = getAttributesMap(element);
 
         nodes.push(
@@ -20,14 +20,14 @@ function buildGraph() {
                 label,
                 attributes,
                 coordinates,
-                visible,
+                isVisible,
             }
         )
 
         if (element.parentElement !== null) {
             edges.push(
                 {
-                    from: element.parentElement.getAttribute("webg_id"),
+                    from: parseInt(element.parentElement.getAttribute("webg_id")),
                     to: id
                 }
             )

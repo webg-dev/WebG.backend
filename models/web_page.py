@@ -22,8 +22,8 @@ class Node(BaseModel):
 
 class Edge(BaseModel):
     # leading underscore added because 'from' would clash with internal python directive
-    _from: int = Field(..., alias='from')
-    _to: int = Field(..., alias='to')
+    from_: int = Field(..., alias='from')
+    to_: int = Field(..., alias='to')
 
 
 class Graph(BaseModel):
