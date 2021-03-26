@@ -1,0 +1,17 @@
+[flake8]
+ignore = E266, E501, W503
+max-line-length = 100
+select = B,C,E,F,W,T4,B9
+per-file-ignores = ./*/__init__.py:F401
+exclude =
+    .git
+    .tox
+    .github
+    __pycache__
+    setup.py
+    build
+    dist
+    releases
+    env
+    venv
+    .venv

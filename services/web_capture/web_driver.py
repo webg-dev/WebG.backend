@@ -69,7 +69,7 @@ class WebDriver:
         script_path = Path(__file__).resolve().parent / 'build_graph.js'
         script = read_text_file(str(script_path))
         self.driver.execute_script(script)
-        graph = self.driver.execute_script(f'return graph;')
+        graph = self.driver.execute_script('return graph;')
         graph = Graph(**graph)
         print(f'Constructed graph with {len(graph.nodes)} nodes.')
         return graph

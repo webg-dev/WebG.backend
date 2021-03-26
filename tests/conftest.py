@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 
 from utils.io_funcs import read_json_file
-from models import WebPage
 
 
 @pytest.fixture()
