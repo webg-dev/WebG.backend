@@ -7,11 +7,15 @@ from selenium import webdriver
 from xvfbwrapper import Xvfb
 
 from utils.io_funcs import read_text_file
+from models import WebPage, Graph
 
 
 class WebDriver:
 
-    def __init__(self, use_virtual_display: Optional[bool] = False):
+    def __init__(self,
+                 use_virtual_display: Optional[bool] = False,
+                 viewport_width: Optional[int] = 1500,
+                 viewport_height: Optional[int] = 3000):
         geckodriver_autoinstaller.install()
         self.use_virtual_display = use_virtual_display
         self.vdisplay = None
@@ -64,11 +68,13 @@ class WebDriver:
     def get_screenshot(self) -> str:
         return self.driver.get_screenshot_as_base64()
 
-    def get_graph(self) -> dict:
+    def get_graph(self) -> Graph:
         script_path = Path(__file__).resolve().parent / 'build_graph.js'
         script = read_text_file(str(script_path))
         self.driver.execute_script(script)
         graph = self.driver.execute_script(f'return graph;')
+        graph = Graph(**graph)
+        print(f'Constructed graph with {len(graph.nodes)} nodes.')
         return graph
 
 
