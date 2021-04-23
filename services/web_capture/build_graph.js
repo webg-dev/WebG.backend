@@ -9,7 +9,7 @@ function buildGraph() {
     for (const [id, element] of allElements.entries()) {
 
         element.setAttribute("webg_id", id.toString());
-        let label = element.tagName;
+        let label = `${element.tagName} - ${id}`;
         let coordinates = element.getBoundingClientRect();
         let isVisible = isElementVisible(element, coordinates);
         let attributes = getAttributesMap(element);
