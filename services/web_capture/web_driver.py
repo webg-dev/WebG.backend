@@ -20,6 +20,8 @@ class WebDriver:
         geckodriver_autoinstaller.install()
         self.use_virtual_display = use_virtual_display
         self.vdisplay = None
+
+        # Open Browser
         if self.use_virtual_display:
             self.setup_virtual_display()
         self.driver = webdriver.Firefox()
