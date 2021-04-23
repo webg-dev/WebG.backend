@@ -16,6 +16,7 @@ class WebDriver:
                  use_virtual_display: Optional[bool] = False,
                  viewport_width: Optional[int] = 1500,
                  viewport_height: Optional[int] = 3000):
+        print('Initialising Webdriver...')
         geckodriver_autoinstaller.install()
         self.use_virtual_display = use_virtual_display
         self.vdisplay = None
@@ -37,6 +38,7 @@ class WebDriver:
         self.vdisplay.start()
 
     def load_page(self, url: str, timeout: Optional[float] = 10) -> None:
+        print(f'Loading: {url}')
         self.driver.get(url)
         self._wait_for_page_load(timeout)
 
