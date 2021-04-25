@@ -23,7 +23,7 @@ class WebDriver:
 
         # Open Browser
         if self.use_virtual_display:
-            self.setup_virtual_display()
+            self.setup_virtual_display(viewport_width=viewport_width, viewport_height=viewport_height)
         self.driver = webdriver.Firefox()
         # self.driver.maximize_window()
         self.driver.set_window_size(1500, 3000)
