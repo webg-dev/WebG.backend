@@ -49,7 +49,15 @@ function isElementVisible(element, elementCoordinates){
     const centerX = elementCoordinates.left + (elementCoordinates.width / 2);
     const centerY = elementCoordinates.top + (elementCoordinates.height / 2);
     const elementAtCentroid = document.elementFromPoint(centerX, centerY);
-    return element === elementAtCentroid;
+    const elementTopLeft = document.elementFromPoint(elementCoordinates.left + 1, elementCoordinates.top + 1);
+    const elementTopRight = document.elementFromPoint(elementCoordinates.right - 1, elementCoordinates.top + 1);
+    const elementBotLeft = document.elementFromPoint(elementCoordinates.left + 1, elementCoordinates.bottom - 1);
+    const elementBotRight = document.elementFromPoint(elementCoordinates.right - 1, elementCoordinates.top + 1);
+
+    const matchesElement = (elementAtPoint) =>  elementAtPoint === element;
+
+
+    return [elementAtCentroid, elementTopLeft, elementTopRight, elementBotLeft, elementBotRight].some(matchesElement);
 }
 
 function getAttributesMap(element) {
