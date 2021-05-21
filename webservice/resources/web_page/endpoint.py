@@ -22,7 +22,7 @@ class PostWebPageRequest(BaseModel):
     response_model=WebPage,
     status_code=201
 )
-def post_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
+def create_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
     url = normalize_url(body.url)
 
     webdriver = WebDriver(use_virtual_display=True)
@@ -44,6 +44,22 @@ def get_web_page(request: Request, _id: UUID) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
     web_page = db.get_web_page(_id)
+
+    if web_page is None:
+        raise WebPageDoesNotExist(_id=_id)
+
+    return web_page
+
+
+@router.put(
+    path='/pages/{_id}',
+    response_model=WebPage,
+    status_code=200
+)
+def update_web_page(request: Request, _id: UUID, web_page: WebPage) -> WebPage:
+    db: BaseDatabase = request.app.state.db
+
+    web_page = db.update_web_page(_id, web_page)
 
     if web_page is None:
         raise WebPageDoesNotExist(_id=_id)

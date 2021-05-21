@@ -1,7 +1,7 @@
 from typing import Union
 from uuid import UUID
 
-from pymongo import MongoClient
+from pymongo import MongoClient, ReturnDocument
 
 from config import env
 from models import WebPage
@@ -22,5 +22,14 @@ class MongoDatabase(BaseDatabase):
         document = self.web_pages.find_one({'id': _id})
         return WebPage(**document) if document else None
 
+    def update_web_page(self, _id: UUID, web_page: WebPage) -> Union[WebPage, None]:
+        document = self.web_pages.find_one_and_replace(
+            filter={'id': _id},
+            replacement=web_page.dict(by_alias=True),
+            return_document=ReturnDocument.AFTER,
+        )
+        return WebPage(**document) if document else None
+
+
     def save_web_page(self, web_page: WebPage) -> None:
-        self.web_pages.insert_one(web_page.dict(by_alias=True))
+        self.web_pages.insert_one(document=web_page.dict(by_alias=True))

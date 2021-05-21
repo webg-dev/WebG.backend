@@ -14,6 +14,11 @@ class BaseDatabase(ABC):
         pass
 
     @abstractmethod
+    def update_web_page(self, _id: UUID, web_page: WebPage) -> WebPage:
+        pass
+
+
+    @abstractmethod
     def save_web_page(self, web_page: WebPage) -> None:
         """Saves web page to database."""
         pass
