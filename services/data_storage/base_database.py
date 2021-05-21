@@ -10,5 +10,5 @@ class BaseDatabase(ABC):
         pass
 
     @abstractmethod
-    def save_web_page(self, web_page: WebPage) -> WebPage:
+    def save_web_page(self, web_page: WebPage) -> None:
         pass
