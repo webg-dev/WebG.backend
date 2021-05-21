@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Dict, Any, List
 from uuid import UUID, uuid4
 
@@ -32,6 +33,11 @@ class Graph(BaseModel):
     edges: List[Edge]
 
 
+class NodeLabel(BaseModel):
+    node_id: int = Field(..., alias='nodeId')
+    class_name: str = Field(..., alias='className')
+
+
 class WebPage(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     url: str
@@ -40,3 +46,4 @@ class WebPage(BaseModel):
     html: str
     screenshot: str
     graph: Graph
+    labels: List[NodeLabel] = []
