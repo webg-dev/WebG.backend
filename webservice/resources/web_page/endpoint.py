@@ -1,5 +1,6 @@
 import os
 from urllib.parse import urlparse
+from uuid import UUID
 
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
@@ -29,6 +30,19 @@ def post_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
 
     db: BaseDatabase = request.app.state.db
     db.save_web_page(web_page)
+
+    return web_page
+
+
+@router.get(
+    path='/pages/{_id}',
+    response_model=WebPage,
+    status_code=200
+)
+def get_web_page(request: Request, _id: str) -> WebPage:
+    db: BaseDatabase = request.app.state.db
+
+    web_page = db.get_web_page(UUID(_id))
 
     return web_page
 

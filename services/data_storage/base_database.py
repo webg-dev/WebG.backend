@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 
 from models import WebPage
 
@@ -6,7 +7,7 @@ from models import WebPage
 class BaseDatabase(ABC):
 
     @abstractmethod
-    def get_web_page(self, _id: str) -> WebPage:
+    def get_web_page(self, _id: UUID) -> WebPage:
         pass
 
     @abstractmethod
