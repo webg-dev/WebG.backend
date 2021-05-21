@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+from config import env
 from models import WebPage
 from .base_database import BaseDatabase
 
@@ -7,8 +8,11 @@ from .base_database import BaseDatabase
 class MongoDatabase(BaseDatabase):
 
     def __init__(self):
-        self.client = MongoClient(host='localhost', port=27017)
-        self.db = self.client['webg_db']
+        self.client = MongoClient(
+            host=env.mongo_host,
+            port=env.mongo_port,
+        )
+        self.db = self.client[env.mongo_db_name]
         self.web_pages = self.db['web_pages']
 
     def get_web_page(self, _id: str) -> WebPage:
