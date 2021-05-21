@@ -25,18 +25,12 @@ class WebDriver:
         if self.use_virtual_display:
             self.setup_virtual_display(viewport_width=viewport_width, viewport_height=viewport_height)
         self.driver = webdriver.Firefox()
-        # self.driver.maximize_window()
-        self.driver.set_window_size(1500, 3000)
+        self.driver.set_window_size(viewport_width, viewport_height)
+        self.viewport_width = self.driver.execute_script('return window.innerWidth;')
+        self.viewport_height = self.driver.execute_script('return window.innerHeight;')
 
-    def setup_virtual_display(self) -> None:
-        """Setup a virtual display with xvfb
-
-        We cannot run headless chrome with extensions enabled thus run the gui in a virtual framebuffer.
-        Chromium behaves the same as google chrome in this respect.
-
-        Untested on how this code would behave if there were more than one xvfb instances.
-        """
-        self.vdisplay = Xvfb(width=1500, height=3000, colordepth=24)
+    def setup_virtual_display(self, viewport_width: int, viewport_height: int) -> None:
+        self.vdisplay = Xvfb(width=viewport_width, height=viewport_height, colordepth=24)
         self.vdisplay.start()
 
     def load_page(self, url: str, timeout: Optional[float] = 10) -> None:
@@ -78,17 +72,20 @@ class WebDriver:
         print(f'Constructed graph with {len(graph.nodes)} nodes.')
         return graph
 
+    def get_web_page(self, url: str) -> WebPage:
+        self.load_page(url)
+        web_page = WebPage(
+            url=self.driver.current_url,
+            viewportWidth=self.viewport_width,
+            viewportHeight=self.viewport_height,
+            html=self.get_html_dom(),
+            screenshot=self.get_screenshot(),
+            graph=self.get_graph()
+        )
 
-if __name__ == '__main__':
-    start = time()
-    _webdriver = WebDriver(headless=True)
-    url = 'file:////home/luka/Downloads/Matcha Hemp Hydrating Cleanser _ Cleanser For Sensitive Skin – KraveBeauty (23_02_2021 17_11_07).html'
-    _webdriver.load_page(url)
-    _graph = _webdriver.get_graph()
-    _html = _webdriver.get_html_dom()
-    _screenshot = _webdriver.get_screenshot()
-    _webdriver.stop_virtual_display()
-    print(f'Constructed graph with {len(_graph["nodes"])} nodes in {time() - start:.2f}s')
-    from pprint import pprint
+        return web_page
 
-    pprint(_graph)
+    def quit(self):
+        self.driver.quit()
+        if self.use_virtual_display:
+            self.vdisplay.stop()
