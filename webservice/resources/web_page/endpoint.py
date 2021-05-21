@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from models import WebPage
 from services.web_capture.web_driver import WebDriver
 from services.data_storage import BaseDatabase
+from webservice.exceptions import WebPageDoesNotExist
 
 router = APIRouter()
 
@@ -39,10 +40,13 @@ def post_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
     response_model=WebPage,
     status_code=200
 )
-def get_web_page(request: Request, _id: str) -> WebPage:
+def get_web_page(request: Request, _id: UUID) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
-    web_page = db.get_web_page(UUID(_id))
+    web_page = db.get_web_page(_id)
+
+    if web_page is None:
+        raise WebPageDoesNotExist(_id=_id)
 
     return web_page
 
