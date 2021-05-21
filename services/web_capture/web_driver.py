@@ -6,8 +6,8 @@ import geckodriver_autoinstaller
 from selenium import webdriver
 from xvfbwrapper import Xvfb
 
-from utils.io_funcs import read_text_file
 from models import WebPage, Graph
+from utils.io_funcs import read_text_file
 
 
 class WebDriver:
