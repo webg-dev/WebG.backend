@@ -14,7 +14,10 @@ class BaseDatabase(ABC):
         pass
 
     @abstractmethod
-    def update_web_page(self, _id: UUID, web_page: WebPage) -> WebPage:
+    def update_web_page(self, _id: UUID, web_page: WebPage) -> Union[WebPage, None]:
+        """Updates web page in database with given ID and
+        returns the web page after update. Returns None if
+        web page does not exist with this ID."""
         pass
 
 
