@@ -38,7 +38,7 @@ class NodeLabel(BaseModel):
 
 
 class WebPage(BaseModel):
-    id: str = Field(default_factory=uuid4)
+    id: str = Field(default_factory=lambda: str(uuid4()))
     url: str
     viewport_width: int = Field(..., alias='viewportWidth')
     viewport_height: int = Field(..., alias='viewportHeight')
