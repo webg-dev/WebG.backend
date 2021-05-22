@@ -22,7 +22,6 @@ def mongo_database(mongodb) -> MongoDatabase:
     return db
 
 
-
 @pytest.fixture()
 def test_page_1_file_path() -> Path:
     return Path(__file__).resolve().parent / 'mock_data/html/test_page_1.html'
@@ -40,7 +39,6 @@ def expected_web_page_dict_for_test_page_1(test_page_1_url) -> dict:
     expected_web_page_dict = read_json_file(expected_web_page_path)
     expected_web_page_dict['url'] = str(test_page_1_url)  # must override this as path be different for each machine.
     return expected_web_page_dict
-
 
 
 @pytest.fixture()

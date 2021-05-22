@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from services.web_capture.web_driver import WebDriver, WebPage
 
 

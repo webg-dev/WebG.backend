@@ -6,6 +6,7 @@ from services.data_storage import BaseDatabase, MongoDatabase
 from webservice.resources import api_router
 from utils.logging import initialise_logger
 
+
 def initialise_database() -> BaseDatabase:
     if env.db_type == 'mongo':
         return MongoDatabase(

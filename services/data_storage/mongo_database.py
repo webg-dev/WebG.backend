@@ -32,7 +32,6 @@ class MongoDatabase(BaseDatabase):
         )
         return WebPage(**document) if document else None
 
-
     def create_web_page(self, web_page: WebPage) -> None:
         module_logger.info(f'Creating web page in DB with ID: {web_page.id}')
         self.web_pages_collection.insert_one(document=web_page.dict(by_alias=True))

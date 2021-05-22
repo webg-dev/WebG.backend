@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import Union
-from uuid import UUID
 
 from models import WebPage
 
