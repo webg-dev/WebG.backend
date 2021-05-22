@@ -13,13 +13,13 @@ class BaseDatabase(ABC):
         pass
 
     @abstractmethod
-    def get_web_page(self, _id: UUID) -> Union[WebPage, None]:
+    def get_web_page(self, _id: str) -> Union[WebPage, None]:
         """Fetches and returns web page from database with
         given id or None if it does not exist."""
         pass
 
     @abstractmethod
-    def update_web_page(self, _id: UUID, web_page: WebPage) -> Union[WebPage, None]:
+    def update_web_page(self, _id: str, web_page: WebPage) -> Union[WebPage, None]:
         """Updates web page in database with given ID and
         returns the web page after update. Returns None if
         web page does not exist with this ID."""
