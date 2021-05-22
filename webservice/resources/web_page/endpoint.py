@@ -30,7 +30,7 @@ def create_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
     webdriver.quit()
 
     db: BaseDatabase = request.app.state.db
-    db.save_web_page(web_page)
+    db.create_web_page(web_page)
 
     return web_page
 
@@ -43,7 +43,7 @@ def create_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
 def get_web_page(request: Request, _id: UUID) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
-    web_page = db.get_web_page(_id)
+    web_page = db.get_web_page(str(_id))
 
     if web_page is None:
         raise WebPageDoesNotExist(_id=_id)
@@ -59,7 +59,7 @@ def get_web_page(request: Request, _id: UUID) -> WebPage:
 def update_web_page(request: Request, _id: UUID, web_page: WebPage) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
-    web_page = db.update_web_page(_id, web_page)
+    web_page = db.update_web_page(str(_id), web_page)
 
     if web_page is None:
         raise WebPageDoesNotExist(_id=_id)
