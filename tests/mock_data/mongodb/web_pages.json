@@ -7,6 +7,12 @@
     "viewportHeight": 1,
     "html": "html",
     "screenshot": "base64 screenshot",
+    "labels": [
+      {
+        "nodeId": 1,
+        "className": "className"
+      }
+    ],
     "graph": {
       "nodes": [
         {
@@ -46,12 +52,6 @@
         {
           "from": 0,
           "to": 1
-        }
-      ],
-      "labels": [
-        {
-          "nodId": 1,
-          "className": "className"
         }
       ]
     }

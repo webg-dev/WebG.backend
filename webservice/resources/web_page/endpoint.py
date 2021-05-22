@@ -40,10 +40,10 @@ def create_web_page(request: Request, body: PostWebPageRequest) -> WebPage:
     response_model=WebPage,
     status_code=200
 )
-def get_web_page(request: Request, _id: UUID) -> WebPage:
+def get_web_page(request: Request, _id: str) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
-    web_page = db.get_web_page(str(_id))
+    web_page = db.get_web_page(_id)
 
     if web_page is None:
         raise WebPageDoesNotExist(_id=_id)
@@ -56,10 +56,10 @@ def get_web_page(request: Request, _id: UUID) -> WebPage:
     response_model=WebPage,
     status_code=200
 )
-def update_web_page(request: Request, _id: UUID, web_page: WebPage) -> WebPage:
+def update_web_page(request: Request, _id: str, web_page: WebPage) -> WebPage:
     db: BaseDatabase = request.app.state.db
 
-    web_page = db.update_web_page(str(_id), web_page)
+    web_page = db.update_web_page(_id, web_page)
 
     if web_page is None:
         raise WebPageDoesNotExist(_id=_id)
