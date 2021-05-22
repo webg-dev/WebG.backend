@@ -1,0 +1,59 @@
+[
+  {
+    "_id": "0",
+    "id": "cbca3e55-14c9-45e9-9ce2-2453019bbfbe",
+    "url": "https://test.com",
+    "viewportWidth": 1,
+    "viewportHeight": 1,
+    "html": "html",
+    "screenshot": "base64 screenshot",
+    "labels": [
+      {
+        "nodeId": 1,
+        "className": "className"
+      }
+    ],
+    "graph": {
+      "nodes": [
+        {
+          "id": 0,
+          "label": "html",
+          "attributes": {
+            "class": "css class name"
+          },
+          "coordinates": {
+            "width": 1.0,
+            "height": 1.0,
+            "left": 1.0,
+            "right": 1.0,
+            "top": 1.0,
+            "bottom": 1.0
+          },
+          "isVisible": true
+        },
+        {
+          "id": 1,
+          "label": "body",
+          "attributes": {
+            "class": "css class name"
+          },
+          "coordinates": {
+            "width": 1.0,
+            "height": 1.0,
+            "left": 1.0,
+            "right": 1.0,
+            "top": 1.0,
+            "bottom": 1.0
+          },
+          "isVisible": true
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 1
+        }
+      ]
+    }
+  }
+]

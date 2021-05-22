@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pytest
 
-from webservice.main import app as application
-
 
 @pytest.fixture()
-def app() -> FastAPI:
+def app(monkeypatch, mongo_database) -> FastAPI:
+    from webservice.main import app as application
+    application.state.db = mongo_database
     return application
 
 

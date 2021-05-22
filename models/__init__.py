@@ -1,1 +1,1 @@
-from .web_page import WebPage, Graph
+from .web_page import WebPage, Graph, NodeLabel

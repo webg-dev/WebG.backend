@@ -1,4 +1,5 @@
 from typing import Dict, Any, List
+from uuid import uuid4
 
 from pydantic import BaseModel, Field
 
@@ -31,10 +32,17 @@ class Graph(BaseModel):
     edges: List[Edge]
 
 
+class NodeLabel(BaseModel):
+    node_id: int = Field(..., alias='nodeId')
+    class_name: str = Field(..., alias='className')
+
+
 class WebPage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid4()))
     url: str
     viewport_width: int = Field(..., alias='viewportWidth')
     viewport_height: int = Field(..., alias='viewportHeight')
     html: str
     screenshot: str
     graph: Graph
+    labels: List[NodeLabel] = []
