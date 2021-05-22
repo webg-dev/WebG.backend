@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from config import env
 from services.data_storage import BaseDatabase, MongoDatabase
 from webservice.resources import api_router
-
+from utils.logging import initialise_logger
 
 def initialise_database() -> BaseDatabase:
     if env.db_type == 'mongo':
@@ -21,6 +21,7 @@ def initialise_app() -> FastAPI:
     _app = FastAPI()
     _app.include_router(api_router)
     _app.state.db = initialise_database()
+    _app.state.logger = initialise_logger()
     _app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:3000"],

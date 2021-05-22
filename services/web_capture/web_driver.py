@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from time import time, sleep
 from typing import Optional
@@ -9,6 +10,8 @@ from xvfbwrapper import Xvfb
 from models import WebPage, Graph
 from utils.io_funcs import read_text_file
 
+module_logger = logging.getLogger('main_app.services.web_capture.web_driver')
+
 
 class WebDriver:
 
@@ -16,7 +19,7 @@ class WebDriver:
                  use_virtual_display: Optional[bool] = False,
                  viewport_width: Optional[int] = 1500,
                  viewport_height: Optional[int] = 3000):
-        print('Initialising Webdriver...')
+        module_logger.info('Initialising Webdriver...')
         geckodriver_autoinstaller.install()
         self.use_virtual_display = use_virtual_display
         self.vdisplay = None
@@ -34,7 +37,7 @@ class WebDriver:
         self.vdisplay.start()
 
     def load_page(self, url: str, timeout: Optional[float] = 10) -> None:
-        print(f'Loading: {url}')
+        module_logger.info(f'Loading: {url}')
         self.driver.get(url)
         self._wait_for_page_load(timeout)
 
@@ -46,15 +49,15 @@ class WebDriver:
         while True:
             num_elements = len(self.driver.find_elements_by_css_selector('*'))
             if num_elements > previous_num_elements:
-                print(f'{num_elements - previous_num_elements} new nodes were added...')
+                module_logger.info(f'{num_elements - previous_num_elements} new nodes were added...')
                 previous_num_elements = num_elements
                 sleep(1)
             else:
-                print(f'Page fully loaded with {num_elements} elements')
+                module_logger.info(f'Page fully loaded with {num_elements} elements')
                 break
 
             if time() - start_time > timeout:
-                print(f'Page load timeout {timeout}s reached')
+                module_logger.info(f'Page load timeout {timeout}s reached')
                 break
 
     def get_html_dom(self) -> str:
@@ -69,7 +72,7 @@ class WebDriver:
         self.driver.execute_script(script)
         graph = self.driver.execute_script('return graph;')
         graph = Graph(**graph)
-        print(f'Constructed graph with {len(graph.nodes)} nodes.')
+        module_logger.info(f'Constructed graph with {len(graph.nodes)} nodes.')
         return graph
 
     def get_web_page(self, url: str) -> WebPage:
